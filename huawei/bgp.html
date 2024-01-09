@@ -9,11 +9,11 @@
         {% endfor %}
 
         route-policy {{ import_police }} {{ rule.action }} node {{ rule.index }}
-          {% if rule.match_ip_address %}
-            {% for match_ip_address in rule.match_ip_address.all() %}
-              if-match ip-prefix{{ rule.match_ip_address }}
-            {% endfor %}
-          {% endif %}
+        {% if rule.match_ip_address %}
+          {% for match_ip_address in rule.match_ip_address.all() %}
+            if-match ip-prefix {{ rule.match_ip_address.name }}
+          {% endfor %}
+        {% endif %}
       {% endfor %}
     {% endfor %}
 
@@ -27,7 +27,7 @@
           route-policy {{ import_police }} {{ rule.action }} node {{ rule.index }}
           {% if rule.match_ip_address %}
             {% for match_ip_address in rule.match_ip_address.all() %}
-              if-match ip-prefix{{ rule.match_ip_address }}
+              if-match ip-prefix{{ rule.match_ip_address.name }}
             {% endfor %}
           {% endif %}
         {% endfor %}
