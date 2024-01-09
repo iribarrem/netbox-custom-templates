@@ -1,0 +1,22 @@
+{% for bgp_session in netbox_bgp.BGPSession.objects.all() %}
+  {% if bgp_session.device == device %}
+    {% for import_police in bgp_session.import_policies.all() %}
+      {% for rule in import_police.rules.all() %}
+        {% for prefix_list in rule.match_ip_address.all() %}
+          {% for prefix_list_rule in prefix_list.prefrules.all() %}
+            ip ip-prefix {{ prefix_list }} index {{ prefix_list_rule.index }} {{ prefix_list_rule.action }} {{ prefix_list_rule.prefix }}
+          {% endfor %}
+        {% endfor %}
+      {% endfor %}
+    {% endfor %}
+    {% for export_police in bgp_session.export_policies.all() %}
+      {% for rule in export_police.rules.all() %}
+        {% for prefix_list in rule.match_ip_address.all() %}
+          {% for prefix_list_rule in prefix_list.prefrules.all() %}
+            ip ip-prefix {{ prefix_list }} index {{ prefix_list_rule.index }} {{ prefix_list_rule.action }} {{ prefix_list_rule.prefix }}
+          {% endfor %}
+        {% endfor %}
+      {% endfor %}
+    {% endfor %}
+  {% endif %}
+{% endfor %}
