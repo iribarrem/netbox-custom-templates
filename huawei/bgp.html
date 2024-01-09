@@ -2,20 +2,17 @@
   {% if bgp_session.device == device %}
     {% for import_police in bgp_session.import_policies.all() %}
       {% for rule in import_police.rules.all() %}
-        {# Configure all Prefix Lists used by the route-policy #}
-        {% set rule_prefixes = [] %}
         {% for prefix_list in rule.match_ip_address.all() %}
-          {% set rule_prefixes = rule_prefixes.append(prefix_list) %}
           {% for prefix_list_rule in prefix_list.prefrules.all() %}
             ip ip-prefix {{ prefix_list }} index {{ prefix_list_rule.index }} {{ prefix_list_rule.action }} {{ prefix_list_rule.prefix }}
-          {% endfor %}
-        {% endfor %}
+          {%- endfor %}
+        {%- endfor %}
 
         {# Configure the Route-policy object #}
         route-policy {{ import_police }} {{ rule.action }} node {{ rule.index }}
-        {% if rule.match_ip_address.all() != [] %}
-          {% for rule_prefix in rule_prefixes %}
-            if-match ip-prefix {{ rule_prefix }}
+        {% if rule.match_ip_address %}
+          {% for match_ip_address in rule.match_ip_address.all() %}
+            if-match ip-prefix {{ rule.match_ip_address.name }}
           {% endfor %}
         {% endif %}
       {% endfor %}
@@ -24,16 +21,15 @@
     {% for export_police in bgp_session.export_policies.all() %}
       {% for rule in export_police.rules.all() %}
         {% for prefix_list in rule.match_ip_address.all() %}
-          {# Configure all Prefix Lists used by the route-policy #}
           {% for prefix_list_rule in prefix_list.prefrules.all() %}
             ip ip-prefix {{ prefix_list }} index {{ prefix_list_rule.index }} {{ prefix_list_rule.action }} {{ prefix_list_rule.prefix }}
           {% endfor %}
 
           {# Configure the Route-policy object #}
           route-policy {{ import_police }} {{ rule.action }} node {{ rule.index }}
-          {% if rule.match_ip_address != None %}
+          {% if rule.match_ip_address %}
             {% for match_ip_address in rule.match_ip_address.all() %}
-              if-match ip-prefix {{ rule.match_ip_address.name }}
+              if-match ip-prefix{{ rule.match_ip_address.name }}
             {% endfor %}
           {% endif %}
         {% endfor %}
