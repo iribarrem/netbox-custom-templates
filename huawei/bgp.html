@@ -14,10 +14,10 @@
         {# Configure the Route-policy object -#}
         route-policy {{ import_police }} {{ rule.action }} node {{ rule.index }}
         {% if rule.match_ip_address.all() != [] -%}
-          {% for rule_prefix in rule_prefixes -%}
+          {% for rule_prefix in rule_prefixes %}
             if-match ip-prefix {{ rule_prefix }}
             #
-          {% endfor %}
+          {%- endfor %}
         {% endif %}
       {% endfor %}
     {% endfor %}
@@ -37,10 +37,10 @@
           {# Configure the Route-policy object -#}
           route-policy {{ import_police }} {{ rule.action }} node {{ rule.index }}
           {% if rule.match_ip_address.all() != [] -%}
-            {% for rule_prefix in rule_prefixes -%}
+            {% for rule_prefix in rule_prefixes %}
               if-match ip-prefix {{ rule_prefix }}
               #
-            {% endfor %}
+            {%- endfor %}
           {% endif %}
         {% endfor %}
       {% endfor %}
