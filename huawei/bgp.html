@@ -17,7 +17,7 @@
           {% for rule_prefix in rule_prefixes %}
             if-match ip-prefix {{ rule_prefix }}
             #
-          {%- endfor %}
+          {% endfor %}
         {% endif %}
       {% endfor %}
     {% endfor %}
@@ -40,7 +40,7 @@
             {% for rule_prefix in rule_prefixes %}
               if-match ip-prefix {{ rule_prefix }}
               #
-            {%- endfor %}
+            {% endfor %}
           {% endif %}
         {% endfor %}
       {% endfor %}
