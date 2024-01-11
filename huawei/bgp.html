@@ -6,7 +6,7 @@
         {% set rule_prefixes = [] %}
         {% for prefix_list in rule.match_ip_address.all() -%}
           {% set rule_prefixes = rule_prefixes.append(prefix_list) -%}
-          {%- for prefix_list_rule in prefix_list.prefrules.all() %}
+          {% for prefix_list_rule in prefix_list.prefrules.all() -%}
             ip ip-prefix {{ prefix_list }} index {{ prefix_list_rule.index }} {{ prefix_list_rule.action }} {{ prefix_list_rule.prefix }}
           {% endfor -%}
         {% endfor %}
@@ -29,7 +29,7 @@
           {% set rule_prefixes = [] %}
           {% for prefix_list in rule.match_ip_address.all() -%}
             {% set rule_prefixes = rule_prefixes.append(prefix_list) -%}
-            {%- for prefix_list_rule in prefix_list.prefrules.all() %}
+            {% for prefix_list_rule in prefix_list.prefrules.all() -%}
               ip ip-prefix {{ prefix_list }} index {{ prefix_list_rule.index }} {{ prefix_list_rule.action }} {{ prefix_list_rule.prefix }}
             {% endfor -%}
           {% endfor -%}
