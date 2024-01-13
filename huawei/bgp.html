@@ -24,7 +24,7 @@ route-policy {{ import_police }} {{ rule.action }} node {{ rule.index }}
 
         {# Apply communities -#}
         {% if rule.set_actions != [] -%}
-          {% if rule.set_actions.community != [] -%}
+          {% if rule.set_actions.from_json().community != [] -%}
            {% for community in rule.set_actions.community.from_json() -%}
   apply community ip-prefix {{ community }}
   #
@@ -58,7 +58,7 @@ route-policy {{ export_police }} {{ rule.action }} node {{ rule.index }}
 
         {# Apply communities -#}
         {% if rule.set_actions != [] -%}
-          {% if rule.set_actions.community != [] -%}
+          {% if rule.set_actions.from_json().community != [] -%}
             {% for community in rule.set_actions.community.from_json() -%}
   apply community ip-prefix {{ community }}
   #
