@@ -5,28 +5,28 @@
                 {# Configure all Prefix Lists used by the route-policy -#}
                 {% for prefix_list in rule.match_ip_address.all() %}
                     {% for prefix_list_rule in prefix_list.prefrules.all() %}
-                        {% if prefix_list_rule.prefix is not none -%}   
+                        {% if prefix_list_rule.prefix is not none %}   
 ip ip-prefix {{ prefix_list }} index {{ prefix_list_rule.index }} {{ prefix_list_rule.action }} {{ prefix_list_rule.prefix.prefix.ip }} {{ prefix_list_rule.prefix.prefix.prefixlen }}
-                        {% else -%}
+                        {% else %}
 ip ip-prefix {{ prefix_list }} index {{ prefix_list_rule.index }} {{ prefix_list_rule.action }} {{ prefix_list_rule.prefix_custom.ip }} {{ prefix_list_rule.prefix_custom.prefixlen }}
                         {% endif %}
                     {% endfor %}
                 {% endfor %}
             {% endfor %}
-        {%- endfor %}
+        {% endfor %}
         {% for policy in bgp_session.export_policies.all() %}
             {% for rule in policy.rules.all() +%}
                 {# Configure all Prefix Lists used by the route-policy -#}
-                {% for prefix_list in rule.match_ip_address.all() -%}
+                {% for prefix_list in rule.match_ip_address.all() %}
                     {% for prefix_list_rule in prefix_list.prefrules.all() %}
-                        {% if prefix_list_rule.prefix is not none -%}   
+                        {% if prefix_list_rule.prefix is not none %}   
 ip ip-prefix {{ prefix_list }} index {{ prefix_list_rule.index }} {{ prefix_list_rule.action }} {{ prefix_list_rule.prefix.prefix.ip }} {{ prefix_list_rule.prefix.prefix.prefixlen }}
-                        {% else -%}
+                        {% else %}
 ip ip-prefix {{ prefix_list }} index {{ prefix_list_rule.index }} {{ prefix_list_rule.action }} {{ prefix_list_rule.prefix_custom.ip }} {{ prefix_list_rule.prefix_custom.prefixlen }}
                         {% endif %}
                     {% endfor %}
                 {% endfor %}
             {% endfor %}
-        {%- endfor %}
+        {% endfor %}
     {% endif %}
 {% endfor %}
