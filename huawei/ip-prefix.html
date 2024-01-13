@@ -5,10 +5,10 @@
                 {# Configure all Prefix Lists used by the route-policy -#}
                 {% for prefix_list in rule.match_ip_address.all() -%}
                     {% for prefix_list_rule in prefix_list.prefrules.all() -%}
-                        {% if prefix_list_rule.prefix is not none -%}   
-NOT NONEip ip-prefix {{ prefix_list }} index {{ prefix_list_rule.index }} {{ prefix_list_rule.action }} {{ prefix_list_rule.prefix }}
+                        {% if prefix_list_rule.prefix is not defined -%}   
+ip ip-prefix {{ prefix_list }} index {{ prefix_list_rule.index }} {{ prefix_list_rule.action }} {{ prefix_list_rule.prefix }}
                         {% else -%}
-NONEip ip-prefix {{ prefix_list }} index {{ prefix_list_rule.index }} {{ prefix_list_rule.action }} {{ prefix_list_rule.prefix_custom.value }} {{ prefix_list_rule.prefix_custom.prefixlen }}
+ip ip-prefix {{ prefix_list }} index {{ prefix_list_rule.index }} {{ prefix_list_rule.action }} {{ prefix_list_rule.prefix_custom.value }} {{ prefix_list_rule.prefix_custom.prefixlen }}
                         {% endif %}
                     {% endfor %}
                 {% endfor %}
@@ -19,12 +19,10 @@ NONEip ip-prefix {{ prefix_list }} index {{ prefix_list_rule.index }} {{ prefix_
                 {# Configure all Prefix Lists used by the route-policy -#}
                 {% for prefix_list in rule.match_ip_address.all() -%}
                     {% for prefix_list_rule in prefix_list.prefrules.all() -%}
-                        {% if prefix_list_rule.prefix is not none -%}
+                        {% if prefix_list_rule.prefix is not defined -%}
 ip ip-prefix {{ prefix_list }} index {{ prefix_list_rule.index }} {{ prefix_list_rule.action }} {{ prefix_list_rule.prefix }}
-NOT NONE
                         {% else -%}
 ip ip-prefix {{ prefix_list }} index {{ prefix_list_rule.index }} {{ prefix_list_rule.action }} {{ prefix_list_rule.prefix_custom.value }} {{ prefix_list_rule.prefix_custom.prefixlen }}
-NONE 
                         {% endif %}
                     {% endfor %}
                 {% endfor %}
