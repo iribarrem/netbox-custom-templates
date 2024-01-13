@@ -23,10 +23,10 @@ route-policy {{ import_police }} {{ rule.action }} node {{ rule.index }}
         {% endif %}
 
         {# Apply communities -#}
-        {% if rule.set_actions.all() != [] -%}
-          {% for action in rule.set_actions.all() -%}
+        {% if rule.set_actions != [] -%}
+          {% for action in rule.set_actions -%}
             {% if action.community != [] -%}
-              {% for community in action.community.all() -%}
+              {% for community in action.community -%}
   apply community ip-prefix {{ community }}
   #
               {% endfor -%}
@@ -59,10 +59,10 @@ route-policy {{ export_police }} {{ rule.action }} node {{ rule.index }}
         {% endif %}
 
         {# Apply communities -#}
-        {% if rule.set_actions.all() != [] -%}
-          {% for action in rule.set_actions.all() -%}
+        {% if rule.set_actions != [] -%}
+          {% for action in rule.set_actions -%}
             {% if action.community != [] -%}
-              {% for community in action.community.all() -%}
+              {% for community in action.community -%}
   apply community ip-prefix {{ community }}
   #
               {% endfor -%}
