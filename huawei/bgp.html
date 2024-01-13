@@ -14,7 +14,7 @@ ip ip-prefix {{ prefix_list }} index {{ prefix_list_rule.index }} {{ prefix_list
         {# Configure the Route-policy object -#}
 route-policy {{ import_police }} {{ rule.action }} node {{ rule.index }}
 
-        {# if-match ip-prefix #}
+        {# if-match ip-prefix -#}
         {% if rule.match_ip_address.all() != [] -%}
           {% for rule_prefix in rule_prefixes %}
   if-match ip-prefix {{ rule_prefix }}
@@ -25,7 +25,7 @@ route-policy {{ import_police }} {{ rule.action }} node {{ rule.index }}
         {# Apply communities -#}
         {% if rule.set_actions != [] -%}
           {% if rule.set_actions["community"] != [] -%}
-           {% for community in rule.set_actions["community"] -%}
+           {% for community in rule.set_actions["community"] %}
   apply community ip-prefix {{ community }}
   #
             {% endfor -%}
@@ -48,7 +48,7 @@ ip ip-prefix {{ prefix_list }} index {{ prefix_list_rule.index }} {{ prefix_list
         {# Configure the Route-policy object -#}
 route-policy {{ export_police }} {{ rule.action }} node {{ rule.index }}
 
-        {# if-match ip-prefix #}
+        {# if-match ip-prefix -#}
         {% if rule.match_ip_address.all() != [] -%}
           {% for rule_prefix in rule_prefixes %}
   if-match ip-prefix {{ rule_prefix }}
@@ -59,7 +59,7 @@ route-policy {{ export_police }} {{ rule.action }} node {{ rule.index }}
         {# Apply communities -#}
         {% if rule.set_actions != [] -%}
           {% if rule.set_actions["community"] != [] -%}
-            {% for community in rule.set_actions["community"] -%}
+            {% for community in rule.set_actions["community"] %}
   apply community ip-prefix {{ community }}
   #
             {% endfor -%}
