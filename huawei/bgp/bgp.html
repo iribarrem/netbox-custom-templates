@@ -1,4 +1,4 @@
-bgp {{ device.ASN }}
+bgp {{ device.cf['ASN'] }}
     PEER BGP
     #
 {% for bgp_session in netbox_bgp.BGPSession.objects.all() %}
