@@ -3,11 +3,13 @@
         {% for import_police in bgp_session.import_policies.all() -%}
             {% for rule in policy.rules.all() +%}
                 {# Configure all Prefix Lists used by the route-policy -#}
-                {% set rule_prefixes = [] -%}
                 {% for prefix_list in rule.match_ip_address.all() -%}
-                    {% set rule_prefixes = rule_prefixes.append(prefix_list) -%}
                     {% for prefix_list_rule in prefix_list.prefrules.all() -%}
+                        {% if prefix_list_rule.prefix != [] -%}
 ip ip-prefix {{ prefix_list }} index {{ prefix_list_rule.index }} {{ prefix_list_rule.action }} {{ prefix_list_rule.prefix }}
+                        {% else -%}
+ip ip-prefix {{ prefix_list }} index {{ prefix_list_rule.index }} {{ prefix_list_rule.action }} {{ prefix_list_rule.prefix_custom }}
+                        {% endif %}
                     {% endfor %}
                 {% endfor %}
             {% endfor %}
@@ -15,13 +17,14 @@ ip ip-prefix {{ prefix_list }} index {{ prefix_list_rule.index }} {{ prefix_list
         {% for export_police in bgp_session.export_policies.all() -%}
             {% for rule in policy.rules.all() +%}
                 {# Configure all Prefix Lists used by the route-policy -#}
-                {% set rule_prefixes = [] -%}
-                {% for prefix_list in rule.match_ip_address.all() -%}
-                    {% set rule_prefixes = rule_prefixes.append(prefix_list) -%}
-                    {% for prefix_list_rule in prefix_list.prefrules.all() -%}
-        ip ip-prefix {{ prefix_list }} index {{ prefix_list_rule.index }} {{ prefix_list_rule.action }} {{ prefix_list_rule.prefix }}
+                {% if rule.match_ip_address.all() != [] -%}
+                    {% for prefix_list in rule.match_ip_address.all() -%}
+                        {% for prefix_list_rule in prefix_list.prefrules.all() -%}
+ip ip-prefix {{ prefix_list }} index {{ prefix_list_rule.index }} {{ prefix_list_rule.action }} {{ prefix_list_rule.prefix }}
+                        {% endfor %}
                     {% endfor %}
-                {% endfor %}
+                {% else %}
+ip ip-prefix {{ prefix_list }} index {{ prefix_list_rule.index }} {{ prefix_list_rule.action }} {{ prefix_list_rule.prefix }}                    
             {% endfor %}
         {% endfor %}
     {% endif %}
