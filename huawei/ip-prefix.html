@@ -1,7 +1,7 @@
 {% for bgp_session in netbox_bgp.BGPSession.objects.all() -%}
     {% if bgp_session.device == device -%}
         {% for policy in bgp_session.import_policies.all() -%}
-            {% for rule in policy.rules.all() -%}
+            {% for rule in policy.rules.all() %}
                 {# Configure all Prefix Lists used by the route-policy -#}
                 {% for prefix_list in rule.match_ip_address.all() -%}
                     {% for prefix_list_rule in prefix_list.prefrules.all() -%}
