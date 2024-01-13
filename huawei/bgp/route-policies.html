@@ -1,15 +1,13 @@
 {% for rule in policy.rules.all() %}
     {# Configure the Route-policy object -#}
 route-policy {{ policy }} {{ rule.action }} node {{ rule.index }}
-
-    {#- if-match ip-prefix -#}
+    {# if-match ip-prefix -#}
     {% if rule.match_ip_address.all() != [] %}
         {% for rule_prefix in rule.match_ip_address.all() %}
     if-match ip-prefix {{ rule_prefix }}
         {% endfor %}
     {% endif %}
-
-    {#- Apply communities -#}
+    {# Apply communities -#}
     {% if rule.set_actions != [] %}
         {% if rule.set_actions["community"] != [] %}
             {% for community in rule.set_actions["community"] %}
