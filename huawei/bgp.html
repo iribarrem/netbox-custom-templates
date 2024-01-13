@@ -24,10 +24,10 @@ route-policy {{ import_police }} {{ rule.action }} node {{ rule.index }}
 
         {# Apply communities -#}
         {% if rule.set_actions != [] -%}
-          {% if action.community != [] -%}
-           {% for community in action.community.from_json() -%}
-apply community ip-prefix {{ community }}
-#
+          {% if set_actions.community != [] -%}
+           {% for community in set_actions.community.from_json() -%}
+  apply community ip-prefix {{ community }}
+  #
             {% endfor -%}
           {% endif %}
         {% endif %}
@@ -58,8 +58,8 @@ route-policy {{ export_police }} {{ rule.action }} node {{ rule.index }}
 
         {# Apply communities -#}
         {% if rule.set_actions != [] -%}
-          {% if action.community != [] -%}
-            {% for community in action.community.from_json() -%}
+          {% if set_actions.community != [] -%}
+            {% for community in set_actions.community.from_json() -%}
   apply community ip-prefix {{ community }}
   #
             {% endfor -%}
