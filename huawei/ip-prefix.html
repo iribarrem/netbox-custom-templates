@@ -13,7 +13,7 @@ ip ip-prefix {{ prefix_list }} index {{ prefix_list_rule.index }} {{ prefix_list
                     {% endfor %}
                 {% endfor %}
             {% endfor %}
-        {% endfor -%}
+        {%- endfor %}
         {% for policy in bgp_session.export_policies.all() %}
             {% for rule in policy.rules.all() +%}
                 {# Configure all Prefix Lists used by the route-policy -#}
@@ -27,6 +27,6 @@ ip ip-prefix {{ prefix_list }} index {{ prefix_list_rule.index }} {{ prefix_list
                     {% endfor %}
                 {% endfor %}
             {% endfor %}
-        {% endfor -%}
+        {%- endfor %}
     {% endif %}
 {% endfor %}
