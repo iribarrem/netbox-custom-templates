@@ -8,7 +8,7 @@
                         {% if False -%}   
 ip ip-prefix {{ prefix_list }} index {{ prefix_list_rule.index }} {{ prefix_list_rule.action }} {{ prefix_list_rule.prefix }}
                         {% else -%}
-ip ip-prefix {{ prefix_list }} index {{ prefix_list_rule.index }} {{ prefix_list_rule.action }} {{ prefix_list_rule.prefix_custom.value }} {{ prefix_list_rule.prefix_custom.prefixlen }}
+ip ip-prefix {{ prefix_list }} index {{ prefix_list_rule.index }} {{ prefix_list_rule.action }} {{ str(prefix_list_rule.prefix_custom.value) }} {{ prefix_list_rule.prefix_custom.prefixlen }}
                         {% endif %}
                     {% endfor %}
                 {% endfor %}
