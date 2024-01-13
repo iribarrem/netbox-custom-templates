@@ -2,8 +2,8 @@
     {% if bgp_session.device == device %}
         {% for policy in bgp_session.import_policies.all() %}
             {% for rule in policy.rules.all() +%}
-                {#- Configure all Prefix Lists used by the route-policy #}
-                {% for prefix_list in rule.match_ip_address.all() %}
+                {# Configure all Prefix Lists used by the route-policy #}
+                {%- for prefix_list in rule.match_ip_address.all() %}
                     {% for prefix_list_rule in prefix_list.prefrules.all() %}
                         {% if prefix_list_rule.prefix is not none -%}   
 ip ip-prefix {{ prefix_list }} index {{ prefix_list_rule.index }} {{ prefix_list_rule.action }} {{ prefix_list_rule.prefix.prefix.ip }} {{ prefix_list_rule.prefix.prefix.prefixlen }}
@@ -16,8 +16,8 @@ ip ip-prefix {{ prefix_list }} index {{ prefix_list_rule.index }} {{ prefix_list
         {% endfor %}
         {% for policy in bgp_session.export_policies.all() %}
             {% for rule in policy.rules.all() +%}
-                {#- Configure all Prefix Lists used by the route-policy #}
-                {% for prefix_list in rule.match_ip_address.all() %}
+                {# Configure all Prefix Lists used by the route-policy #}
+                {%- for prefix_list in rule.match_ip_address.all() %}
                     {% for prefix_list_rule in prefix_list.prefrules.all() %}
                         {% if prefix_list_rule.prefix is not none -%}   
 ip ip-prefix {{ prefix_list }} index {{ prefix_list_rule.index }} {{ prefix_list_rule.action }} {{ prefix_list_rule.prefix.prefix.ip }} {{ prefix_list_rule.prefix.prefix.prefixlen }}
