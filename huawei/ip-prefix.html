@@ -22,7 +22,7 @@ ip ip-prefix {{ prefix_list }} index {{ prefix_list_rule.index }} {{ prefix_list
                         {% if prefix_list_rule.prefix != None -%}
 ip ip-prefix {{ prefix_list }} index {{ prefix_list_rule.index }} {{ prefix_list_rule.action }} {{ prefix_list_rule.prefix }}
                         {% else -%}
-ip ip-prefix {{ prefix_list }} index {{ prefix_list_rule.index }} {{ prefix_list_rule.action }} {{ prefix_list_rule.prefix_custom }}
+ip ip-prefix {{ prefix_list }} index {{ prefix_list_rule.index }} {{ prefix_list_rule.action }} {{ prefix_list_rule.prefix_custom.value }} {{ prefix_list_rule.prefix_custom.prefixlen }}
                         {% endif %}
                     {% endfor %}
                 {% endfor %}
