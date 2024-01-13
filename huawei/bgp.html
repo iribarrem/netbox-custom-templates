@@ -7,16 +7,30 @@
         {% for prefix_list in rule.match_ip_address.all() -%}
           {% set rule_prefixes = rule_prefixes.append(prefix_list) -%}
           {% for prefix_list_rule in prefix_list.prefrules.all() -%}
-            ip ip-prefix {{ prefix_list }} index {{ prefix_list_rule.index }} {{ prefix_list_rule.action }} {{ prefix_list_rule.prefix }}
+ip ip-prefix {{ prefix_list }} index {{ prefix_list_rule.index }} {{ prefix_list_rule.action }} {{ prefix_list_rule.prefix }}
           {% endfor %}
         {% endfor %}
 
         {# Configure the Route-policy object -#}
-        route-policy {{ import_police }} {{ rule.action }} node {{ rule.index }}
+route-policy {{ import_police }} {{ rule.action }} node {{ rule.index }}
+
+        {# if-match ip-prefix #}
         {% if rule.match_ip_address.all() != [] -%}
           {% for rule_prefix in rule_prefixes %}
-            if-match ip-prefix {{ rule_prefix }}
-            #
+  if-match ip-prefix {{ rule_prefix }}
+  #
+          {% endfor -%}
+        {% endif %}
+
+        {# Apply communities -#}
+        {% if rule.set_actions.all() != [] -%}
+          {% for action in rule.set_actions.all() -%}
+            {% if action.community != [] -%}
+              {% for community in action.community.all() -%}
+  apply community ip-prefix {{ community }}
+  #
+              {% endfor -%}
+            {% endif %}
           {% endfor -%}
         {% endif %}
       {% endfor %}
@@ -29,16 +43,30 @@
         {% for prefix_list in rule.match_ip_address.all() -%}
           {% set rule_prefixes = rule_prefixes.append(prefix_list) -%}
           {% for prefix_list_rule in prefix_list.prefrules.all() -%}
-            ip ip-prefix {{ prefix_list }} index {{ prefix_list_rule.index }} {{ prefix_list_rule.action }} {{ prefix_list_rule.prefix }}
+ip ip-prefix {{ prefix_list }} index {{ prefix_list_rule.index }} {{ prefix_list_rule.action }} {{ prefix_list_rule.prefix }}
           {% endfor %}
         {% endfor %}
 
         {# Configure the Route-policy object -#}
-        route-policy {{ export_police }} {{ rule.action }} node {{ rule.index }}
+route-policy {{ export_police }} {{ rule.action }} node {{ rule.index }}
+
+        {# if-match ip-prefix #}
         {% if rule.match_ip_address.all() != [] -%}
           {% for rule_prefix in rule_prefixes %}
-            if-match ip-prefix {{ rule_prefix }}
-            #
+  if-match ip-prefix {{ rule_prefix }}
+  #
+          {% endfor -%}
+        {% endif %}
+
+        {# Apply communities -#}
+        {% if rule.set_actions.all() != [] -%}
+          {% for action in rule.set_actions.all() -%}
+            {% if action.community != [] -%}
+              {% for community in action.community.all() -%}
+  apply community ip-prefix {{ community }}
+  #
+              {% endfor -%}
+            {% endif %}
           {% endfor -%}
         {% endif %}
       {% endfor %}
