@@ -6,7 +6,7 @@
                 {% for prefix_list in rule.match_ip_address.all() %}
                     {% for prefix_list_rule in prefix_list.prefrules.all() %}
                         {% if prefix_list_rule.prefix is not none -%}   
-ip ip-prefix {{ prefix_list }} index {{ prefix_list_rule.index }} {{ prefix_list_rule.action }} {{ prefix_list_rule.prefix.prefix.value }} {{ prefix_list_rule.prefix.prefix.prefixlen }}
+ip ip-prefix {{ prefix_list }} index {{ prefix_list_rule.index }} {{ prefix_list_rule.action }} {{ prefix_list_rule.prefix.prefix.value | ipaddr('address') }} {{ prefix_list_rule.prefix.prefix.prefixlen }}
                         {% else -%}
 ip ip-prefix {{ prefix_list }} index {{ prefix_list_rule.index }} {{ prefix_list_rule.action }} {{ prefix_list_rule.prefix_custom.value }} {{ prefix_list_rule.prefix_custom.prefixlen }}
                         {% endif %}
