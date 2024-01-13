@@ -1,10 +1,10 @@
 {% for bgp_session in netbox_bgp.BGPSession.objects.all() -%}
     {% if bgp_session.device == device -%}
         {% for import_police in bgp_session.import_policies.all() -%}
-            {% include 'route-policies.html' %}
+            {% include "route-policies.html" %}
         {% endfor %}
         {% for export_police in bgp_session.export_policies.all() -%}
-            {% include 'route-policies.html' %}
+            {% include "route-policies.html" %}
         {% endfor %}
     {% endif %}
 {% endfor %}
