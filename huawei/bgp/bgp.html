@@ -1,9 +1,9 @@
 {% for bgp_session in netbox_bgp.BGPSession.objects.all() -%}
     {% if bgp_session.device == device -%}
-        {% for policy in bgp_session.import_policies.all() %}
+        {% for policy in bgp_session.import_policies.all() +%}
             {% include "huawei/bgp/route-policies.html" %}
         {% endfor %}
-        {% for policy in bgp_session.export_policies.all() %}
+        {% for policy in bgp_session.export_policies.all() +%}
             {% include "huawei/bgp/route-policies.html" %}
         {% endfor %}
     {% endif %}
