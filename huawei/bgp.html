@@ -24,14 +24,12 @@ route-policy {{ import_police }} {{ rule.action }} node {{ rule.index }}
 
         {# Apply communities -#}
         {% if rule.set_actions != [] -%}
-          {% for action in rule.set_actions -%}
-            {% if action.community != [] -%}
-              {% for community in action.community -%}
-  apply community ip-prefix {{ community }}
-  #
-              {% endfor -%}
-            {% endif %}
-          {% endfor -%}
+          {% if action.community != [] -%}
+           {% for community in action.community.from_json() -%}
+apply community ip-prefix {{ community }}
+#
+            {% endfor -%}
+          {% endif %}
         {% endif %}
       {% endfor %}
     {% endfor %}
