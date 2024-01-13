@@ -4,7 +4,7 @@ bgp {{ device.cf['ASN'].asn }}
     peer {{ bgp_session.remote_address }} enable
     peer {{ bgp_session.remote_address }} advertise-community
     peer {{ bgp_session.remote_address }} advertise-ext-community
-        {% if bgp_session.cf['keep-all-routes'] %}
+        {% if bgp_session.cf['Keep All Routes'] %}
     peer {{ bgp_session.remote_address }} keep-all-routes
         {% endif %}
     {% endfor %}
