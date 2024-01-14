@@ -4,7 +4,7 @@ bgp {{ device.cf['ASN'].asn }}
     peer {{ bgp_session.remote_address }} enable
     peer {{ bgp_session.remote_address }} advertise-community
     peer {{ bgp_session.remote_address }} advertise-ext-community
-    {{ bgp_session.cf['keep_all_routes'].keep_all_routes }}
+    {{ bgp_session.cf['keep_all_routes'] }}
     {% endfor %}
     ipv4-family-unicast
         #
