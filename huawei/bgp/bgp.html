@@ -1,6 +1,6 @@
 bgp {{ device.cf['ASN'].asn }}
     {% for bgp_session in netbox_bgp.BGPSession.objects.all() %}
-    {% set remote_address == bgp_session.remote_address.address.ip %}
+    {% set remote_address = bgp_session.remote_address.address.ip %}
     peer {{ remote_address }} as-number {{ bgp_session.remote_as }}
     peer {{ remote_address }} enable
     peer {{ remote_address }} advertise-community
