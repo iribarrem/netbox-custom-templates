@@ -1,9 +1,9 @@
 bgp {{ device.cf['ASN'].asn }}
     {% for bgp_session in netbox_bgp.BGPSession.objects.all() %}
-    peer {{ bgp_session.remote_address }} as-number {{ bgp_session.remote_as }}
-    peer {{ bgp_session.remote_address }} enable
-    peer {{ bgp_session.remote_address }} advertise-community
-    peer {{ bgp_session.remote_address }} advertise-ext-community
+    peer {{ bgp_session.remote_address.ip }} as-number {{ bgp_session.remote_as }}
+    peer {{ bgp_session.remote_address.ip }} enable
+    peer {{ bgp_session.remote_address.ip }} advertise-community
+    peer {{ bgp_session.remote_address.ip }} advertise-ext-community
     {% if bgp_session.cf['keep_all_routes'] %}
     peer {{ bgp_session.remote_address }} keep-all-routes
     {% endif %}
