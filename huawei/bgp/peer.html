@@ -1,0 +1,14 @@
+{% for bgp_session in netbox_bgp.BGPSession.objects.all() +%}
+    {% set remote_address = bgp_session.remote_address.address.ip %}
+    peer {{ remote_address }} as-number {{ bgp_session.remote_as }}
+    peer {{ remote_address }} description {{ bgp_session.name }}
+    peer {{ remote_address }} enable
+    peer {{ remote_address }} advertise-community
+    peer {{ remote_address }} advertise-ext-community
+    {% if bgp_session.cf['keep_all_routes'] %}
+    peer {{ remote_address }} keep-all-routes
+    {% endif %}
+    {% if bgp_session.cf['ebgp_max_hops'] %}
+    peer {{ remote_address }} ebgp-max-hops {{ bgp_session.cf['ebgp_max_hops'] }}
+    {% endif %}
+{% endfor %}

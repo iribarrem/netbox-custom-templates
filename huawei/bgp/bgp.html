@@ -1,28 +1,16 @@
-bgp {{ device.cf['ASN'].asn }}
-    {% for bgp_session in netbox_bgp.BGPSession.objects.all() %}
-    {% set remote_address = bgp_session.remote_address.address.ip %}
-    peer {{ remote_address }} as-number {{ bgp_session.remote_as }}
-    peer {{ remote_address }} description {{ bgp_session }}
-    peer {{ remote_address }} enable
-    peer {{ remote_address }} advertise-community
-    peer {{ remote_address }} advertise-ext-community
-    {% if bgp_session.cf['keep_all_routes'] %}
-    peer {{ remote_address }} keep-all-routes
-    {% endif %}
-    {% if bgp_session.cf['ebgp_max_hops'] %}
-    peer {{ remote_address }} ebgp-max-hops {{ bgp_session.cf['ebgp_max_hops'] }}
-    {% endif %}
-    {% endfor %}
-    ipv4-family-unicast
-        #
-    #
 {% for bgp_session in netbox_bgp.BGPSession.objects.all() %}
     {% if bgp_session.device == device %}
         {% for policy in bgp_session.import_policies.all() +%}
-            {% include "huawei/bgp/route-policies.html" %}
+            {% include "huawei/route-policies.html" %}
         {% endfor %}
         {% for policy in bgp_session.export_policies.all() +%}
-            {% include "huawei/bgp/route-policies.html" %}
+            {% include "huawei/route-policies.html" %}
         {% endfor %}
     {% endif %}
 {% endfor %}
+
+bgp {{ device.cf['ASN'].asn }}
+    {% include "huawei/bgp/peer.html" %}
+    ipv4-family-unicast
+        #
+    #
