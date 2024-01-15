@@ -9,7 +9,9 @@ bgp {{ device.cf['ASN'].asn }}
     {% if bgp_session.cf['keep_all_routes'] %}
     peer {{ remote_address }} keep-all-routes
     {% endif %}
+    {% if bgp_session.cf['ebgp_max_hops'] != '' %}
     peer {{ remote_address }} ebgp-max-hops {{ bgp_session.cf['ebgp_max_hops'].ebgp_max_hops }}
+    {% endif %}
     {% endfor %}
     ipv4-family-unicast
         #
