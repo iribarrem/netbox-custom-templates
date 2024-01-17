@@ -11,6 +11,4 @@
 
 bgp {{ device.cf['ASN'].asn }}
     {% include "huawei/bgp/peer.html" %}
-    ipv4-family-unicast
-        #
     #
