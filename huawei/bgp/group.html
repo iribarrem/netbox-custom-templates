@@ -1,7 +1,7 @@
 {% set bgp_groups = [] %}
 {% for bgp_session in netbox_bgp.BGPSession.objects.all() +%}
     {% if bgp_session.device == device %}
-        {% set bgp_groups = bgp_groups.append(bgp_session.peer_group) }
+        {% set bgp_groups = bgp_groups.append(bgp_session.peer_group) %}
     {% endif %}
 {% endfor %}
 
