@@ -19,7 +19,4 @@
     {% if bgp_group.cf['ASN'] %}
     peer {{ bgp_group.name }} as-number {{ bgp_group.cf['ASN'].asn }}
     {% endif %}
-
-    {% if bgp_group.import_policies %}
-    peer {{ bgp_group.name }} 
 {% endfor %}
