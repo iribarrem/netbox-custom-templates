@@ -1,3 +1,4 @@
+{# Configure Route Policies -#}
 {% for bgp_session in netbox_bgp.BGPSession.objects.all() %}
     {% if bgp_session.device == device %}
         {% for policy in bgp_session.import_policies.all() +%}
@@ -9,6 +10,7 @@
     {% endif %}
 {% endfor %}
 
-bgp {{ device.cf['ASN'].asn }}
+bgp {{ device.cf['ASN'].asn -}}
+    {% include "huawei/bgp/group.html" %}
     {% include "huawei/bgp/peer.html" %}
     #
