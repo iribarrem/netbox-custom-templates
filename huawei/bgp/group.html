@@ -5,7 +5,7 @@
     {% endif %}
 {% endfor %}
 
-{% if bgp_groups %}
+{% if bgp_groups is not none %}
     {% for bgp_group in bgp_groups %}
         {% if bgp_group.cf['bgp_session_type'] == "External (eBGP)" %}
     group {{ bgp_group.name }} external
