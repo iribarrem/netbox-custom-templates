@@ -10,7 +10,10 @@
     {% endif %}
 {% endfor %}
 
+as-notation plain
 bgp {{ device.cf['ASN'].asn -}}
+    undo default ipv4-unicast
     {% include "huawei/bgp/group.html" %}
     {% include "huawei/bgp/peer.html" %}
+    {% include "huawei/bgp/ipv4-family-unicast.html" %}
     #
