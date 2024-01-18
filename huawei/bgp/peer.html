@@ -1,12 +1,11 @@
 {% for bgp_session in netbox_bgp.BGPSession.objects.all() +%}
     {% if bgp_session.device == device %}
+        {% set remote_address = bgp_session.remote_address.address.ip %}
         {# Configure Sessions with BGP Group -#}
         {% if bgp_session.peer_group %}
-
-
+    peer {{ remote_address }} group {{ bgp_session.peer_group.name }}
         {# Configure Sessions without BGP Groups -#}
         {% else %}
-            {% set remote_address = bgp_session.remote_address.address.ip %}
     peer {{ remote_address }} as-number {{ bgp_session.remote_as }}
     peer {{ remote_address }} description {{ bgp_session.name }}
     peer {{ remote_address }} enable
