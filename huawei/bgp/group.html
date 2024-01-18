@@ -7,4 +7,23 @@
     {% endif %}
 {% endfor %}
 
-{{ bgp_groups }}
+{% if bgp_groups %}
+    {% for bgp_group in bgp_groups %}
+        {% if bgp_group.cf['bgp_session_type'] == "External (eBGP)" %}
+    group {{ bgp_group.name }} external
+        {% else %}
+    group {{ bgp_group.name }} internal
+        {% endif %} 
+
+        {% if bgp_group.description %}
+    peer {{ bgp_group.name }} description {{ bgp_group.description }}
+        {% endif %}
+        
+        {% if bgp_group.cf['ASN'] %}
+    peer {{ bgp_group.name }} as-number {{ bgp_group.cf['ASN'].asn }}
+        {% endif %}
+    {% endfor %}
+{% else %}
+TESTE
+{% endif %}
+
