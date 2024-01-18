@@ -5,18 +5,20 @@
     {% endif %}
 {% endfor %}
 
-{% for bgp_group in bgp_groups %}
-    {% if bgp_group.cf['bgp_session_type'] == "External (eBGP)" %}
+{% if bgp_groups %}
+    {% for bgp_group in bgp_groups %}
+        {% if bgp_group.cf['bgp_session_type'] == "External (eBGP)" %}
     group {{ bgp_group.name }} external
-    {% else %}
+        {% else %}
     group {{ bgp_group.name }} internal
-    {% endif %} 
+        {% endif %} 
 
-    {% if bgp_group.description %}
+        {% if bgp_group.description %}
     peer {{ bgp_group.name }} description {{ bgp_group.description }}
-    {% endif %}
-    
-    {% if bgp_group.cf['ASN'] %}
+        {% endif %}
+        
+        {% if bgp_group.cf['ASN'] %}
     peer {{ bgp_group.name }} as-number {{ bgp_group.cf['ASN'].asn }}
-    {% endif %}
-{% endfor %}
+        {% endif %}
+    {% endfor %}
+{% endif %}
